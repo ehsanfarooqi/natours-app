@@ -76,6 +76,18 @@ exports.login = catchAsync(async (req, res, next) => {
   createAndSendToken(user, 200, res);
 });
 
+// User Logout funcionallity
+exports.logout = (req, res, next) => {
+  res.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+  res.status(200).json({
+    status: 'success',
+    message: 'User logged Out...',
+  });
+};
+
 // User Authentication
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check it's there
@@ -86,7 +98,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(' ')[1];
   } else if (req.cookies.jwt) {
-    // Thir line of protect is for get cookies
     token = req.cookies.jwt;
   }
   if (!token) {
@@ -117,6 +128,37 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+// When no error
+exports.isLoggedIn = async (req, res, next) => {
+  // 1) Verviy Token
+  if (req.cookies.jwt) {
+    try {
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET
+      );
+
+      // 2) Check id user still exist
+      const currentUser = await User.findById(decoded.id);
+      if (!currentUser) {
+        return next();
+      }
+
+      // 3) Check if user changed password after the token issued
+      if (currentUser.changedPasswordAfter(decoded.iat)) {
+        return next();
+      }
+
+      // There is a logged in user
+      res.locals.user = currentUser; // we can access res.locals.user on pug teplate
+      return next();
+    } catch (err) {
+      return next();
+    }
+  }
+  next();
+};
+
 // create role and permission
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
@@ -129,7 +171,6 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
-
 // Forgot password nad send email for users
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email

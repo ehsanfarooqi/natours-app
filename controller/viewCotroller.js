@@ -43,3 +43,9 @@ exports.getLoginForm = catchAsync(async (req, res, next) => {
     title: 'login to your acount',
   });
 });
+
+exports.getSignUpForm = catchAsync(async (req, res, next) => {
+  res.status(200).render('signup', {
+    title: 'Sign Up to Natours App',
+  });
+});
