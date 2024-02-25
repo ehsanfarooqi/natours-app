@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
-    "start:prod": "NODE_ENV=production nodemon server.js"
+    "start:prod": "NODE_ENV=production nodemon server.js",
+    "debug": "ndb server.js",
+    "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/js/bundled",
+    "build:js": "parcel build ./public/js/index.js --dist-dir ./public/js/bundled"
   },
   "author": "Ehsan",
   "license": "ISC",
@@ -31,6 +34,7 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
-    "parcel": "^2.11.0"
+    "ndb": "^1.1.5",
+    "parcel": "^2.8.2"
   }
 }
