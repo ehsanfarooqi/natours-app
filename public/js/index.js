@@ -40,7 +40,7 @@ if (loadSignUpForm) {
     const confirmPassword = document.getElementById('confirmPassword').value;
     const photo = document.getElementById('photo').files[0].name;
 
-    signUp(name, email, password, confirmPassword, photo);
+    signUp({ name, email, password, confirmPassword, photo }, 'data');
   });
 }
 

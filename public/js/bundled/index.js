@@ -562,7 +562,13 @@ if (loadSignUpForm) loadSignUpForm.addEventListener("submit", async (e)=>{
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
     const photo = document.getElementById("photo").files[0].name;
-    (0, _signup.signUp)(name, email, password, confirmPassword, photo);
+    (0, _signup.signUp)({
+        name,
+        email,
+        password,
+        confirmPassword,
+        photo
+    }, "data");
 });
 if (userDataForm) userDataForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
@@ -11882,18 +11888,12 @@ parcelHelpers.export(exports, "signUp", ()=>signUp);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alert = require("./alert");
-const signUp = async (name, email, password, confirmPassword, photo)=>{
+const signUp = async (data)=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "POST",
             url: "http://127.0.0.1:8000/api/users/signup",
-            data: {
-                name,
-                email,
-                password,
-                confirmPassword,
-                photo
-            }
+            data
         });
         window.setTimeout(()=>{
             (0, _alert.showAlert)("success", "Sign up successfull!");
