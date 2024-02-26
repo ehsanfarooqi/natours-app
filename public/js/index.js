@@ -45,16 +45,35 @@ if (loadSignUpForm) {
 }
 
 if (userDataForm) {
-  userDataForm.addEventListener('submit', e => {
+  userDataForm.addEventListener('submit', async e => {
     e.preventDefault();
-    document.querySelector('.btn--save--settings').textContent = 'Updating...';
+    document.querySelector('.btn--save-settings').textContent = 'Updating...';
 
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
 
-    updateSettings(name, email);
+    await updateSettings({ name, email }, 'data');
 
-    document.querySelector('.btn--save--settings').textContent =
-      'Save settings';
+    document.querySelector('.btn--save-settings').textContent = 'Save settings';
+  });
+}
+
+if (userPasswordForm) {
+  userPasswordForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    document.querySelector('.btn--save-password').textContent = 'Updating...';
+
+    const passwordCurrent = document.getElementById('password-current').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('password-confirm').value;
+
+    await updateSettings(
+      { passwordCurrent, password, confirmPassword },
+      'password'
+    );
+    document.querySelector('.btn--save-password').textContent = 'Save Password';
+    document.getElementById('password-current').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('password-confirm').value = '';
   });
 }

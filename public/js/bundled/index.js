@@ -564,13 +564,32 @@ if (loadSignUpForm) loadSignUpForm.addEventListener("submit", async (e)=>{
     const photo = document.getElementById("photo").files[0].name;
     (0, _signup.signUp)(name, email, password, confirmPassword, photo);
 });
-if (userDataForm) userDataForm.addEventListener("submit", (e)=>{
+if (userDataForm) userDataForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
-    document.querySelector(".btn--save--settings").textContent = "Updating...";
+    document.querySelector(".btn--save-settings").textContent = "Updating...";
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
-    (0, _updateSettings.updateSettings)(name, email);
-    document.querySelector(".btn--save--settings").textContent = "Save settings";
+    await (0, _updateSettings.updateSettings)({
+        name,
+        email
+    }, "data");
+    document.querySelector(".btn--save-settings").textContent = "Save settings";
+});
+if (userPasswordForm) userPasswordForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    document.querySelector(".btn--save-password").textContent = "Updating...";
+    const passwordCurrent = document.getElementById("password-current").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("password-confirm").value;
+    await (0, _updateSettings.updateSettings)({
+        passwordCurrent,
+        password,
+        confirmPassword
+    }, "password");
+    document.querySelector(".btn--save-password").textContent = "Save Password";
+    document.getElementById("password-current").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("password-confirm").value = "";
 });
 
 },{"./login":"7yHem","@babel/polyfill":"dTCHC","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY"}],"7yHem":[function(require,module,exports) {
@@ -11892,18 +11911,16 @@ parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alert = require("./alert");
-const updateSettings = async (name, email)=>{
+const updateSettings = async (data, type)=>{
     try {
+        const url = type === "password" ? "http://127.0.0.1:8000/api/users/updateMyPassword" : "http://127.0.0.1:8000/api/users/updateMe";
         const res = await (0, _axiosDefault.default)({
             method: "PATCH",
-            url: "http://127.0.0.1:8000/api/users/updateMe",
-            data: {
-                name,
-                email
-            }
+            url,
+            data
         });
         if (res.data.status === "success") {
-            (0, _alert.showAlert)("success", "Updated successfully");
+            (0, _alert.showAlert)("success", `${type.toUpperCase()} Updated successfully`);
             window.setTimeout(()=>{
                 location.reload();
             }, 1000);
