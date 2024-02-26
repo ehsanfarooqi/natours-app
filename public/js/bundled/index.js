@@ -536,11 +536,14 @@ var _polyfill = require("@babel/polyfill");
 var _login = require("./login");
 var _mapBox = require("./mapBox");
 var _signup = require("./signup");
+var _updateSettings = require("./updateSettings");
 // DOM ELEMENT
 const mapBox = document.getElementById("map");
 const loadForm = document.querySelector(".form--login");
 const logoutBtn = document.querySelector(".nav__el--logout");
 const loadSignUpForm = document.querySelector(".form--signup");
+const userDataForm = document.querySelector(".form-user-data");
+const userPasswordForm = document.querySelector(".form-user-settings");
 if (mapBox) {
     const locations = JSON.parse(mapBox.dataset.locations);
     (0, _mapBox.displayMap)(locations);
@@ -561,8 +564,16 @@ if (loadSignUpForm) loadSignUpForm.addEventListener("submit", async (e)=>{
     const photo = document.getElementById("photo").files[0].name;
     (0, _signup.signUp)(name, email, password, confirmPassword, photo);
 });
+if (userDataForm) userDataForm.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    document.querySelector(".btn--save--settings").textContent = "Updating...";
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    (0, _updateSettings.updateSettings)(name, email);
+    document.querySelector(".btn--save--settings").textContent = "Save settings";
+});
 
-},{"./login":"7yHem","@babel/polyfill":"dTCHC","./mapBox":"k6XpQ","./signup":"fNY2o"}],"7yHem":[function(require,module,exports) {
+},{"./login":"7yHem","@babel/polyfill":"dTCHC","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY"}],"7yHem":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "login", ()=>login);
@@ -11871,6 +11882,34 @@ const signUp = async (name, email, password, confirmPassword, photo)=>{
         }, 1500);
     } catch (err) {
         (0, _alert.showAlert)("errorr", err.reponse.data.message);
+    }
+};
+
+},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l3cGY":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alert = require("./alert");
+const updateSettings = async (name, email)=>{
+    try {
+        const res = await (0, _axiosDefault.default)({
+            method: "PATCH",
+            url: "http://127.0.0.1:8000/api/users/updateMe",
+            data: {
+                name,
+                email
+            }
+        });
+        if (res.data.status === "success") {
+            (0, _alert.showAlert)("success", "Updated successfully");
+            window.setTimeout(()=>{
+                location.reload();
+            }, 1000);
+        }
+    } catch (err) {
+        (0, _alert.showAlert)("error", err.response.data.message);
     }
 };
 

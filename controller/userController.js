@@ -6,6 +6,15 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 
+// This function filltered the fields, which fields can user updated on (updateMe) function
+const fillterObj = (obj, ...allowedFields) => {
+  const newObj = {};
+  Object.keys(obj).forEach(el => {
+    if (allowedFields.includes(el)) newObj[el] = obj[el];
+  });
+  return newObj;
+};
+
 // Get Current user data
 exports.getMe = catchAsync(async (req, res, next) => {
   req.params.id = req.user.id;
@@ -24,7 +33,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
   // 2) Filtered out unwanted fields name that are not allowed to be update
-  const filteredBody = filterObj(req.body, 'name', 'email');
+  const filteredBody = fillterObj(req.body, 'name', 'email');
 
   // 3) Update user document
   const updateUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
