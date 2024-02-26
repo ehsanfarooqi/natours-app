@@ -552,13 +552,14 @@ if (loadForm) loadForm.addEventListener("submit", (e)=>{
     (0, _login.login)(email, password);
 });
 if (logoutBtn) logoutBtn.addEventListener("click", (0, _login.logout));
-if (loadSignUpForm) loadSignUpForm.addEventListener("submit", (e)=>{
+if (loadSignUpForm) loadSignUpForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
-    (0, _signup.signUp)(name, email, password, confirmPassword);
+    const photo = document.getElementById("photo").files[0].name;
+    (0, _signup.signUp)(name, email, password, confirmPassword, photo);
 });
 
 },{"./login":"7yHem","@babel/polyfill":"dTCHC","./mapBox":"k6XpQ","./signup":"fNY2o"}],"7yHem":[function(require,module,exports) {
@@ -11851,7 +11852,7 @@ parcelHelpers.export(exports, "signUp", ()=>signUp);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alert = require("./alert");
-const signUp = async (name, email, password, confirmPassword)=>{
+const signUp = async (name, email, password, confirmPassword, photo)=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "POST",
@@ -11860,7 +11861,8 @@ const signUp = async (name, email, password, confirmPassword)=>{
                 name,
                 email,
                 password,
-                confirmPassword
+                confirmPassword,
+                photo
             }
         });
         window.setTimeout(()=>{
