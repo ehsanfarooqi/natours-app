@@ -5,12 +5,21 @@ const userController = require('../controller/userController');
 
 const router = express.Router();
 
+router.route('/').get(authController.isLoggedIn, viewController.getOverview);
+
+router
+  .route('/tour/:slug')
+  .get(authController.isLoggedIn, viewController.getTour);
+
+router
+  .route('/login')
+  .get(authController.isLoggedIn, viewController.getLoginForm);
+
 router.route('/signup').get(viewController.getSignUpForm);
+router.route('/me').get(authController.protect, viewController.getAcount);
 
-router.use(authController.isLoggedIn);
-
-router.route('/').get(viewController.getOverview);
-router.route('/tour/:slug').get(viewController.getTour);
-router.route('/login').get(viewController.getLoginForm);
+router
+  .route('/submit-user-data')
+  .post(authController.protect, viewController.updateUserData);
 
 module.exports = router;
