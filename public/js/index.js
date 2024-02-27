@@ -34,14 +34,17 @@ if (logoutBtn) logoutBtn.addEventListener('click', logout);
 if (loadSignUpForm) {
   loadSignUpForm.addEventListener('submit', async e => {
     e.preventDefault();
+    const form = new FormData();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const photo = document.getElementById('photo').files[0].name;
-
-    signUp({ name, email, password, confirmPassword, photo }, 'data');
+    form.append('name', document.getElementById('name').value);
+    form.append('email', document.getElementById('email').value);
+    form.append('password', document.getElementById('password').value);
+    form.append(
+      'confirmPassword',
+      document.getElementById('confirmPassword').value
+    );
+    form.append('photo', document.getElementById('photo').files[0]);
+    signUp(form, 'data');
   });
 }
 

@@ -1,8 +1,39 @@
 const multer = require('multer');
+const sharp = require('sharp');
+
 const Tour = require('../models/tourModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const User = require('../models/userModel');
+
+// Upload User Photo
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimeytype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('This is not images! Please upload image.', 400), false);
+  }
+};
+
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
+
+exports.uploadUserPhoto = upload.single('photo');
+
+// Resize user photo
+exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
+  if (!req.file) return next();
+
+  req.body.photo = `user-${req.params.id}-${Date.now}.jpeg`;
+  await sharp(req.files.photo.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/users/${req.body.photo}`);
+
+  next();
+});
 
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1) Get All Overviews from documment

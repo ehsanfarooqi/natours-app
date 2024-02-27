@@ -6,6 +6,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 
+// Upload tour images and imageCover
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
@@ -23,6 +24,7 @@ exports.uploadTourPhoto = upload.fields([
   { name: 'images', maxCount: 3 },
 ]);
 
+// Resize images and imageCover
 exports.resizeTourPhoto = catchAsync(async (req, res, next) => {
   if (!req.files.imageCover || !req.files.images) return next();
 

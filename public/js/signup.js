@@ -15,6 +15,6 @@ export const signUp = async data => {
       location.assign('/');
     }, 1500);
   } catch (err) {
-    showAlert('errorr', err.reponse.data.message);
+    showAlert('error', err.response.data.message);
   }
 };

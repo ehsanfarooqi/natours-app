@@ -557,18 +557,13 @@ if (loadForm) loadForm.addEventListener("submit", (e)=>{
 if (logoutBtn) logoutBtn.addEventListener("click", (0, _login.logout));
 if (loadSignUpForm) loadSignUpForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
-    const photo = document.getElementById("photo").files[0].name;
-    (0, _signup.signUp)({
-        name,
-        email,
-        password,
-        confirmPassword,
-        photo
-    }, "data");
+    const form = new FormData();
+    form.append("name", document.getElementById("name").value);
+    form.append("email", document.getElementById("email").value);
+    form.append("password", document.getElementById("password").value);
+    form.append("confirmPassword", document.getElementById("confirmPassword").value);
+    form.append("photo", document.getElementById("photo").files[0]);
+    (0, _signup.signUp)(form, "data");
 });
 if (userDataForm) userDataForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
@@ -11899,7 +11894,7 @@ const signUp = async (data)=>{
             location.assign("/");
         }, 1500);
     } catch (err) {
-        (0, _alert.showAlert)("errorr", err.reponse.data.message);
+        (0, _alert.showAlert)("error", err.response.data.message);
     }
 };
 
