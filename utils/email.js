@@ -17,28 +17,28 @@ module.exports = class Email {
       return nodemailer.createTransport(
         new Transport({ apiKey: process.env.SENDBLUE_APIKEY })
       );
-
-      // This line code not worked then i use the (nodemailer-brevo-transport) package****
-      // return nodemailer.createTransport({
-      //   service: 'Brevo',
-      //   host: process.env.SENDBLUE_HOST,
-      //   port: process.env.SENDBLUE_PORT,
-
-      //   auth: {
-      //     user: process.env.SENDBLUE_USERNAME,
-      //     pass: process.env.SENDBLUE_PASSWORD,
-      //   },
-      // });
     }
-
+    // This line code not worked then i use the (nodemailer-brevo-transport) package****
     return nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
+      service: 'Brevo',
+      host: process.env.SENDBLUE_HOST,
+      port: process.env.SENDBLUE_PORT,
+
       auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD,
+        user: process.env.SENDBLUE_USERNAME,
+        pass: process.env.SENDBLUE_PASSWORD,
       },
     });
+
+    // ***** Use MailTrap ****
+    // return nodemailer.createTransport({
+    //   host: process.env.EMAIL_HOST,
+    //   port: process.env.EMAIL_PORT,
+    //   auth: {
+    //     user: process.env.EMAIL_USERNAME,
+    //     pass: process.env.EMAIL_PASSWORD,
+    //   },
+    // });
   }
 
   // Send actual email
@@ -74,28 +74,3 @@ module.exports = class Email {
     );
   }
 };
-
-// Send Email with API *********
-// const sendEmail = async options => {
-//   // 1) Create a transporter
-//   const transporter = nodemailer.createTransport({
-//     host: process.env.EMAIL_HOST,
-//     port: process.env.EMAIL_PORT,
-//     auth: {
-//       user: process.env.EMAIL_USERNAME,
-//       pass: process.env.EMAIL_PASSWORD,
-//     },
-//   });
-
-//   // 2) Define thie email optiona
-//   const mailOptions = {
-//     from: 'Ehsan Farooqi <ehsan@gmail.com>',
-//     to: options.email,
-//     subject: options.subject,
-//     text: options.message,
-//   };
-//   // 3) Actually send the email
-//   await transporter.sendMail(mailOptions);
-// };
-
-// module.exports = sendEmail;

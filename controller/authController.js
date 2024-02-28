@@ -54,6 +54,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   const url = `${req.protocol}://${req.get('host')}/me`; // Access to the url from email to change photo
+  console.log(url);
   new Email(newUser, url).sendWelcome();
 
   createAndSendToken(newUser, 201, res);
@@ -178,28 +179,39 @@ exports.restrictTo = (...roles) => {
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email
   const user = await User.findOne({ email: req.body.email });
+
   if (!user) {
     return next(new AppError('Ther is no user with this email address', 404));
   }
+
   // 2) genret ther random reset token
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
-  const resetURL = `http://127.0.0.1:8000/api/users/resetPassword/${resetToken}`;
 
-  // 3) Send email to users email
-  // const message = `Forgot your password? Submit a PATCH request with your new password and confirmPassword to ${resetURL}\
-  //   If you don't forgot your password, pleaase ignore this email.`;
+  // 3) Send it to user's email
+  try {
+    const resetURL = `${req.protocol}://${req.get(
+      'host'
+    )}/api/v1/users/resetPassword/${resetToken}`;
 
-  // await sendEmail({
-  //   email: user.email,
-  //   subject: 'Your password reser token (Valid for 10 min)',
-  //   message,
-  // });
+    await new Email(user, resetURL).sendPasswordReset(); // send Email for PasswordReset
 
-  res.status(200).json({
-    status: 'success',
-    message: 'Token sent to email, Please check your emaul.',
-  });
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email! Please cheeck your email.',
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError(
+        'There was an error sending the email. Try again later!',
+        500
+      )
+    );
+  }
 });
 
 // Reset the current user password
