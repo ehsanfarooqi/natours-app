@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
-const sendEmail = require('../utils/email');
+const Email = require('../utils/email');
 
 // create JWT
 const signToken = id => {
@@ -52,6 +52,9 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordResetToken: req.body.passwordResetToken,
     passwordResetExpires: req.body.passwordResetExpires,
   });
+
+  const url = `${req.protocol}://${req.get('host')}/me`; // Access to the url from email to change photo
+  new Email(newUser, url).sendWelcome();
 
   createAndSendToken(newUser, 201, res);
 });
@@ -184,14 +187,14 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const resetURL = `http://127.0.0.1:8000/api/users/resetPassword/${resetToken}`;
 
   // 3) Send email to users email
-  const message = `Forgot your password? Submit a PATCH request with your new password and confirmPassword to ${resetURL}\
-    If you don't forgot your password, pleaase ignore this email.`;
+  // const message = `Forgot your password? Submit a PATCH request with your new password and confirmPassword to ${resetURL}\
+  //   If you don't forgot your password, pleaase ignore this email.`;
 
-  await sendEmail({
-    email: user.email,
-    subject: 'Your password reser token (Valid for 10 min)',
-    message,
-  });
+  // await sendEmail({
+  //   email: user.email,
+  //   subject: 'Your password reser token (Valid for 10 min)',
+  //   message,
+  // });
 
   res.status(200).json({
     status: 'success',
