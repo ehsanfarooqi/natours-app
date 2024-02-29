@@ -14,6 +14,7 @@ const tourRouter = require('./routes/tourRouter');
 const userRouter = require('./routes/userRouter');
 const reviewRouter = require('./routes/reviewRouter');
 const viewRouter = require('./routes/viewRouter');
+const bookingRouter = require('./routes/bookingRoute');
 
 // Start express app
 const app = express();
@@ -74,10 +75,11 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.use('/', viewRouter);
 app.use('/api/tours', tourRouter);
 app.use('/api/users', userRouter);
 app.use('/api/reviews', reviewRouter);
-app.use('/', viewRouter);
+app.use('/api/bookings', bookingRouter);
 
 // Rout Handler
 app.all('*', (req, res, next) => {
