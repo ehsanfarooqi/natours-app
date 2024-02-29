@@ -54,7 +54,6 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   const url = `${req.protocol}://${req.get('host')}/me`; // Access to the url from email to change photo
-  console.log(url);
   new Email(newUser, url).sendWelcome();
 
   createAndSendToken(newUser, 201, res);
@@ -175,6 +174,7 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
 // Forgot password nad send email for users
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email
@@ -192,7 +192,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   try {
     const resetURL = `${req.protocol}://${req.get(
       'host'
-    )}/api/v1/users/resetPassword/${resetToken}`;
+    )}/resetPassword/${resetToken}`;
 
     await new Email(user, resetURL).sendPasswordReset(); // send Email for PasswordReset
 

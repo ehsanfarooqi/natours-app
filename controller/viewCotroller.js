@@ -35,6 +35,7 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   next();
 });
 
+// Get Home page
 exports.getOverview = catchAsync(async (req, res, next) => {
   // 1) Get All Overviews from documment
   const tours = await Tour.find();
@@ -48,6 +49,7 @@ exports.getOverview = catchAsync(async (req, res, next) => {
   });
 });
 
+// Get tour by slug
 exports.getTour = catchAsync(async (req, res, next) => {
   // 1) Get the data, for the requisted tour (including review and guides)
   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
@@ -71,24 +73,28 @@ exports.getTour = catchAsync(async (req, res, next) => {
     });
 });
 
+// User login view
 exports.getLoginForm = catchAsync(async (req, res, next) => {
   res.status(200).render('login', {
     title: 'login to your acount',
   });
 });
 
+// New user sign up view
 exports.getSignUpForm = catchAsync(async (req, res, next) => {
   res.status(200).render('signup', {
     title: 'Sign Up to Natours App',
   });
 });
 
+// User acount views
 exports.getAcount = (req, res) => {
   res.status(200).render('acount', {
     title: 'Your Acount',
   });
 };
 
+// User data views
 exports.updateUserData = catchAsync(async (req, res, next) => {
   const updateUser = await User.findByIdAndUpdate(
     req.user.id,
@@ -104,5 +110,22 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
   res.status(200).render('acount', {
     title: 'Your Acount',
     user: updateUser,
+  });
+});
+
+// Forgot password view
+exports.getForgotPassForm = catchAsync(async (req, res, next) => {
+  res.status(200).render('forgotPassword', {
+    title: 'Forgot password',
+  });
+});
+
+// Reset password view
+exports.getResetPassForm = catchAsync(async (req, res, next) => {
+  const token = req.params.token;
+
+  res.status(200).render('resetPassword', {
+    title: 'Reset your password',
+    token,
   });
 });

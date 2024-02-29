@@ -4,6 +4,7 @@ import { login, logout } from './login';
 import { displayMap } from './mapBox';
 import { signUp } from './signup';
 import { updateSettings } from './updateSettings';
+import { forgotPass, resetPass } from './passwordSettings';
 
 // DOM ELEMENT
 const mapBox = document.getElementById('map');
@@ -12,12 +13,16 @@ const logoutBtn = document.querySelector('.nav__el--logout');
 const loadSignUpForm = document.querySelector('.form--signup');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-settings');
+const forgotPassword = document.querySelector('.form--resetPass');
+const resetPassword = document.querySelector('.form--resetPass');
 
+// Maap box section
 if (mapBox) {
   const locations = JSON.parse(mapBox.dataset.locations);
   displayMap(locations);
 }
 
+// User logged in form
 if (loadForm) {
   loadForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -29,8 +34,10 @@ if (loadForm) {
   });
 }
 
+// Logged out button
 if (logoutBtn) logoutBtn.addEventListener('click', logout);
 
+// Sign up new user form
 if (loadSignUpForm) {
   loadSignUpForm.addEventListener('submit', async e => {
     e.preventDefault();
@@ -48,6 +55,7 @@ if (loadSignUpForm) {
   });
 }
 
+// User data form
 if (userDataForm) {
   userDataForm.addEventListener('submit', async e => {
     e.preventDefault();
@@ -63,6 +71,7 @@ if (userDataForm) {
   });
 }
 
+// User password form
 if (userPasswordForm) {
   userPasswordForm.addEventListener('submit', async e => {
     e.preventDefault();
@@ -80,5 +89,32 @@ if (userPasswordForm) {
     document.getElementById('password-current').value = '';
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';
+  });
+}
+
+// Forgor user password form
+if (forgotPassword) {
+  forgotPassword.addEventListener('submit', async e => {
+    e.preventDefault();
+    document.querySelector('.btn--send-email').textContent = 'Sending Email...';
+    const email = document.getElementById('email').value;
+
+    await forgotPass(email);
+
+    document.querySelector('.btn--send-email').textContent =
+      'Get password reset link ';
+  });
+}
+
+// Reset user password form
+if (resetPassword) {
+  resetPassword.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const token = document.getElementById('resetToken').value;
+
+    await resetPass(password, confirmPassword, token);
   });
 }

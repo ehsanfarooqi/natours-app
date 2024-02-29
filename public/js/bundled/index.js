@@ -537,6 +537,7 @@ var _login = require("./login");
 var _mapBox = require("./mapBox");
 var _signup = require("./signup");
 var _updateSettings = require("./updateSettings");
+var _passwordSettings = require("./passwordSettings");
 // DOM ELEMENT
 const mapBox = document.getElementById("map");
 const loadForm = document.querySelector(".form--login");
@@ -544,17 +545,23 @@ const logoutBtn = document.querySelector(".nav__el--logout");
 const loadSignUpForm = document.querySelector(".form--signup");
 const userDataForm = document.querySelector(".form-user-data");
 const userPasswordForm = document.querySelector(".form-user-settings");
+const forgotPassword = document.querySelector(".form--resetPass");
+const resetPassword = document.querySelector(".form--resetPass");
+// Maap box section
 if (mapBox) {
     const locations = JSON.parse(mapBox.dataset.locations);
     (0, _mapBox.displayMap)(locations);
 }
+// User logged in form
 if (loadForm) loadForm.addEventListener("submit", (e)=>{
     e.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     (0, _login.login)(email, password);
 });
+// Logged out button
 if (logoutBtn) logoutBtn.addEventListener("click", (0, _login.logout));
+// Sign up new user form
 if (loadSignUpForm) loadSignUpForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
     const form = new FormData();
@@ -565,6 +572,7 @@ if (loadSignUpForm) loadSignUpForm.addEventListener("submit", async (e)=>{
     form.append("photo", document.getElementById("photo").files[0]);
     (0, _signup.signUp)(form, "data");
 });
+// User data form
 if (userDataForm) userDataForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
     document.querySelector(".btn--save-settings").textContent = "Updating...";
@@ -575,6 +583,7 @@ if (userDataForm) userDataForm.addEventListener("submit", async (e)=>{
     await (0, _updateSettings.updateSettings)(form, "data");
     document.querySelector(".btn--save-settings").textContent = "Save settings";
 });
+// User password form
 if (userPasswordForm) userPasswordForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
     document.querySelector(".btn--save-password").textContent = "Updating...";
@@ -591,8 +600,24 @@ if (userPasswordForm) userPasswordForm.addEventListener("submit", async (e)=>{
     document.getElementById("password").value = "";
     document.getElementById("password-confirm").value = "";
 });
+// Forgor user password form
+if (forgotPassword) forgotPassword.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    document.querySelector(".btn--send-email").textContent = "Sending Email...";
+    const email = document.getElementById("email").value;
+    await (0, _passwordSettings.forgotPass)(email);
+    document.querySelector(".btn--send-email").textContent = "Get password reset link ";
+});
+// Reset user password form
+if (resetPassword) resetPassword.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const token = document.getElementById("resetToken").value;
+    await (0, _passwordSettings.resetPass)(password, confirmPassword, token);
+});
 
-},{"@babel/polyfill":"dTCHC","./login":"7yHem","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY"}],"dTCHC":[function(require,module,exports) {
+},{"@babel/polyfill":"dTCHC","./login":"7yHem","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY","./passwordSettings":"4F7cx"}],"dTCHC":[function(require,module,exports) {
 "use strict";
 require("316ac4c05c14c195");
 var _global = _interopRequireDefault(require("eda71351ef130dec"));
@@ -11917,6 +11942,52 @@ const updateSettings = async (data, type)=>{
             (0, _alert.showAlert)("success", `${type.toUpperCase()} Updated successfully`);
             window.setTimeout(()=>{
                 location.reload();
+            }, 1000);
+        }
+    } catch (err) {
+        (0, _alert.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4F7cx":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "forgotPass", ()=>forgotPass);
+parcelHelpers.export(exports, "resetPass", ()=>resetPass);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alert = require("./alert");
+const forgotPass = async (email)=>{
+    try {
+        const res = await (0, _axiosDefault.default)({
+            method: "POST",
+            url: "http://127.0.0.1:8000/api/users/forgotPassword",
+            data: {
+                email
+            }
+        });
+        (0, _alert.showAlert)("success", "Successfull! Please cheeck your email");
+        window.setTimeout(()=>{
+            location.reload();
+        }, 1000);
+    } catch (err) {
+        (0, _alert.showAlert)("error", "Can not find this email. Pleas try again.");
+    }
+};
+const resetPass = async (password, confirmPassword, token)=>{
+    try {
+        const res = await (0, _axiosDefault.default)({
+            method: "PATCH",
+            url: `http://127.0.0.1:8000/api/users/resetPassword/${token}`,
+            data: {
+                password,
+                confirmPassword
+            }
+        });
+        if (res.data.status === "success") {
+            (0, _alert.showAlert)("success", "Successfully your password reseted \uD83D\uDE42");
+            window.setTimeout(()=>{
+                location.assign("/me");
             }, 1000);
         }
     } catch (err) {

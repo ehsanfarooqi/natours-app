@@ -17,6 +17,10 @@ router
 router.route('/signup').get(viewController.getSignUpForm);
 router.route('/me').get(authController.protect, viewController.getAcount);
 
+router.route('/forgotPassword').get(viewController.getForgotPassForm);
+
+router.route('/resetPassword/:token').get(viewController.getResetPassForm);
+
 router
   .route('/submit-user-data')
   .post(authController.protect, viewController.updateUserData);
