@@ -5,6 +5,7 @@ import { displayMap } from './mapBox';
 import { signUp } from './signup';
 import { updateSettings } from './updateSettings';
 import { forgotPass, resetPass } from './passwordSettings';
+import { bookTour } from './stripe';
 
 // DOM ELEMENT
 const mapBox = document.getElementById('map');
@@ -15,6 +16,7 @@ const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-settings');
 const forgotPassword = document.querySelector('.form--resetPass');
 const resetPassword = document.querySelector('.form--resetPass');
+const bookBtn = document.getElementById('book-tour');
 
 // Maap box section
 if (mapBox) {
@@ -116,5 +118,13 @@ if (resetPassword) {
     const token = document.getElementById('resetToken').value;
 
     await resetPass(password, confirmPassword, token);
+  });
+}
+
+if (bookBtn) {
+  bookBtn.addEventListener('click', e => {
+    e.target.textContent = 'Processing...';
+    const tourId = e.target.dataset.tourId;
+    bookTour(tourId);
   });
 }
