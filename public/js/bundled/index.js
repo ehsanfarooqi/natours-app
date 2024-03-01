@@ -12019,11 +12019,10 @@ const bookTour = async (tourId)=>{
             sessionId: session.data.session.id
         });
     } catch (err) {
-        console.log(err);
         (0, _alert.showAlert)("error", err);
     }
 };
 
-},{"./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","axios":"jo6P5"}]},["jyRZ6","f2QDv"], "f2QDv", "parcelRequireda5e")
+},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jyRZ6","f2QDv"], "f2QDv", "parcelRequireda5e")
 
 //# sourceMappingURL=index.js.map
