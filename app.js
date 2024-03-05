@@ -40,11 +40,12 @@ app.use(helmet({ contentSecurityPolicy: false }));
 
 // Limit requests from same API
 const limiter = rateLimit({
-  max: 100,
-  windowMS: 60 * 60 * 1000,
+  max: 3,
+  windowMS: 24 * 60 * 60 * 1000,
   message: 'To many request from this IP, please try again in an hour!',
 });
 app.use('/api', limiter);
+app.use('/', limiter);
 
 // Body parser, readin data from body into req.body
 app.use(express.json({ limit: '10kb' }));
