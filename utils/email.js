@@ -19,26 +19,26 @@ module.exports = class Email {
       );
     }
     // This line code not worked then i use the (nodemailer-brevo-transport) package****
-    // return nodemailer.createTransport({
-    //   service: 'Brevo',
-    //   host: process.env.SENDBLUE_HOST,
-    //   port: process.env.SENDBLUE_PORT,
-
-    //   auth: {
-    //     user: process.env.SENDBLUE_USERNAME,
-    //     pass: process.env.SENDBLUE_PASSWORD,
-    //   },
-    // });
-
-    // ***** Use MailTrap ****
     return nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
+      service: 'Brevo',
+      host: process.env.SENDBLUE_HOST,
+      port: process.env.SENDBLUE_PORT,
+
       auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD,
+        user: process.env.SENDBLUE_USERNAME,
+        pass: process.env.SENDBLUE_PASSWORD,
       },
     });
+
+    // ***** Use MailTrap ****
+    // return nodemailer.createTransport({
+    //   host: process.env.EMAIL_HOST,
+    //   port: process.env.EMAIL_PORT,
+    //   auth: {
+    //     user: process.env.EMAIL_USERNAME,
+    //     pass: process.env.EMAIL_PASSWORD,
+    //   },
+    // });
   }
 
   // Send actual email
