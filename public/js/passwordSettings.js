@@ -6,7 +6,7 @@ export const forgotPass = async email => {
   try {
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8000/api/users/forgotPassword',
+      url: '/api/users/forgotPassword',
       data: {
         email,
       },
@@ -25,7 +25,7 @@ export const resetPass = async (password, confirmPassword, token) => {
   try {
     const res = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:8000/api/users/resetPassword/${token}`,
+      url: `/api/users/resetPassword/${token}`,
       data: {
         password,
         confirmPassword,
