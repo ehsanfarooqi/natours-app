@@ -11968,7 +11968,7 @@ const forgotPass = async (email)=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "POST",
-            url: "api/users/forgotPassword",
+            url: "http://127.0.0.1:8000/api/users/forgotPassword",
             data: {
                 email
             }
@@ -11978,14 +11978,14 @@ const forgotPass = async (email)=>{
             location.reload();
         }, 1000);
     } catch (err) {
-        (0, _alert.showAlert)("error", "Can not find this email. Please try again.");
+        (0, _alert.showAlert)("error", "Can not find this email. Pleas try again.");
     }
 };
 const resetPass = async (password, confirmPassword, token)=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "PATCH",
-            url: `api/users/resetPassword/${token}`,
+            url: `http://127.0.0.1:8000/api/users/resetPassword/${token}`,
             data: {
                 password,
                 confirmPassword

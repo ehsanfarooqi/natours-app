@@ -6,7 +6,7 @@ export const forgotPass = async email => {
   try {
     const res = await axios({
       method: 'POST',
-      url: 'api/users/forgotPassword',
+      url: 'http://127.0.0.1:8000/api/users/forgotPassword',
       data: {
         email,
       },
@@ -16,7 +16,7 @@ export const forgotPass = async email => {
       location.reload();
     }, 1000);
   } catch (err) {
-    showAlert('error', 'Can not find this email. Please try again.');
+    showAlert('error', 'Can not find this email. Pleas try again.');
   }
 };
 
@@ -25,7 +25,7 @@ export const resetPass = async (password, confirmPassword, token) => {
   try {
     const res = await axios({
       method: 'PATCH',
-      url: `api/users/resetPassword/${token}`,
+      url: `http://127.0.0.1:8000/api/users/resetPassword/${token}`,
       data: {
         password,
         confirmPassword,
