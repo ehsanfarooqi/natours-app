@@ -11978,7 +11978,7 @@ const forgotPass = async (email)=>{
             location.reload();
         }, 1000);
     } catch (err) {
-        (0, _alert.showAlert)("error", "Can not find this email. Pleas try again.");
+        (0, _alert.showAlert)("error", "Can not find this email. Please try again.");
     }
 };
 const resetPass = async (password, confirmPassword, token)=>{

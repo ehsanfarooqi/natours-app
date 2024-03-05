@@ -16,7 +16,7 @@ export const forgotPass = async email => {
       location.reload();
     }, 1000);
   } catch (err) {
-    showAlert('error', 'Can not find this email. Pleas try again.');
+    showAlert('error', 'Can not find this email. Please try again.');
   }
 };
 
