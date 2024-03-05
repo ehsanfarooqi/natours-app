@@ -15,7 +15,7 @@ const signToken = id => {
 };
 
 // Create and send Token
-const createAndSendToken = (user, statusCode, res) => {
+const createAndSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
   res.cookie('jwt', token, {
     expires: new Date(
@@ -54,7 +54,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const url = `${req.protocol}://${req.get('host')}/me`; // Access to the url from email to change photo
   new Email(newUser, url).sendWelcome();
 
-  createAndSendToken(newUser, 201, res);
+  createAndSendToken(newUser, 201, req, res);
 });
 
 // Login user
@@ -74,7 +74,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // 3) If everythin is ok, send token to the client
-  createAndSendToken(user, 200, res);
+  createAndSendToken(user, 200, req, res);
 });
 
 // User Logout funcionallity
@@ -237,7 +237,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // 3) Update ChangedPasswordAt property forn the user
 
   // 4) Log the user in, send JWT
-  createAndSendToken(user, 200, res);
+  createAndSendToken(user, 200, req, res);
 });
 
 // Update User Password
@@ -256,5 +256,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   // log user in, send JWT
-  createAndSendToken(user, 200, res);
+  createAndSendToken(user, 200, req, res);
 });
