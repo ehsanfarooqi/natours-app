@@ -17,15 +17,13 @@ const signToken = id => {
 // Create and send Token
 const createAndSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
-  const cookieOptions = {
+  res.cookie('jwt', token, {
     expires: new Date(
-      Date.now() + process.env.JWI_COOKIE_EPIRES_IN * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWI_COOKIE_EPIRES_IN * 20 * 60 * 60 * 1000
     ),
     httpOnly: true,
-  };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-
-  res.cookie('jwt', token, cookieOptions);
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+  });
 
   // Remove password from output
   user.password = undefined;
