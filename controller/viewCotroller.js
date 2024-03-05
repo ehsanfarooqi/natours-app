@@ -7,6 +7,14 @@ const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
+exports.alerts = (req, res, next) => {
+  const alert = req.query.alert;
+  if (alert === 'booking')
+    res.locals.alert =
+      'Your booking was successfully! Please check your email for confirmation. If your booking does not shoe up here immediatly, Please com back later.';
+  next();
+};
+
 // Upload User Photo
 const multerStorage = multer.memoryStorage();
 

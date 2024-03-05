@@ -539,6 +539,7 @@ var _signup = require("./signup");
 var _updateSettings = require("./updateSettings");
 var _passwordSettings = require("./passwordSettings");
 var _stripe = require("./stripe");
+var _alert = require("./alert");
 // DOM ELEMENT
 const mapBox = document.getElementById("map");
 const loadForm = document.querySelector(".form--login");
@@ -623,8 +624,10 @@ if (bookBtn) bookBtn.addEventListener("click", (e)=>{
     const tourId = e.target.dataset.tourId;
     (0, _stripe.bookTour)(tourId);
 });
+const alertMessage = document.querySelector("body").dataset.alert;
+if (alertMessage) (0, _alert.showAlert)("success", alertMessage, 20);
 
-},{"@babel/polyfill":"dTCHC","./login":"7yHem","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY","./passwordSettings":"4F7cx","./stripe":"10tSC"}],"dTCHC":[function(require,module,exports) {
+},{"@babel/polyfill":"dTCHC","./login":"7yHem","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY","./passwordSettings":"4F7cx","./stripe":"10tSC","./alert":"kxdiQ"}],"dTCHC":[function(require,module,exports) {
 "use strict";
 require("316ac4c05c14c195");
 var _global = _interopRequireDefault(require("eda71351ef130dec"));
@@ -11862,11 +11865,11 @@ const hideAlert = ()=>{
     const el = document.querySelector(".alert");
     if (el) el.parentElement.removeChild(el);
 };
-const showAlert = (type, msg)=>{
+const showAlert = (type, msg, time = 7)=>{
     hideAlert();
     const markup = `<div class="alert alert--${type}">${msg}</div>`;
     document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
-    window.setTimeout(hideAlert, 5000);
+    window.setTimeout(hideAlert, time * 1000);
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k6XpQ":[function(require,module,exports) {

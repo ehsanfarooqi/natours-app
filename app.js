@@ -50,7 +50,7 @@ app.use('/', limiter);
 
 // Webhook router
 app.post(
-  '/webhook-chekout',
+  '/webhook-checkout',
   express.raw({ type: 'application/json' }),
   bookingController.webhookCheckout
 );
