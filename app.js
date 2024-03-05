@@ -40,7 +40,7 @@ app.use(helmet({ contentSecurityPolicy: false }));
 
 // Limit requests from same API
 const limiter = rateLimit({
-  max: 3,
+  max: 100,
   windowMS: 24 * 60 * 60 * 1000,
   message: 'To many request from this IP, please try again in an hour!',
 });
