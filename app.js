@@ -46,7 +46,6 @@ const limiter = rateLimit({
   message: 'To many request from this IP, please try again in an hour!',
 });
 app.use('/api', limiter);
-app.use('/', limiter);
 
 // Webhook router
 app.post(

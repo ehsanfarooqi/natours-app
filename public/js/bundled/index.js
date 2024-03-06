@@ -625,7 +625,7 @@ if (bookBtn) bookBtn.addEventListener("click", (e)=>{
     (0, _stripe.bookTour)(tourId);
 });
 const alertMessage = document.querySelector("body").dataset.alert;
-if (alertMessage) (0, _alert.showAlert)("success", alertMessage, 20);
+if (alertMessage) (0, _alert.showAlert)("success", alertMessage, 10);
 
 },{"@babel/polyfill":"dTCHC","./login":"7yHem","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY","./passwordSettings":"4F7cx","./stripe":"10tSC","./alert":"kxdiQ"}],"dTCHC":[function(require,module,exports) {
 "use strict";
