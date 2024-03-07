@@ -154,3 +154,10 @@ exports.getResetPassForm = catchAsync(async (req, res, next) => {
     token,
   });
 });
+
+// Manage Tours Page
+exports.getMangeTour = catchAsync(async (req, res, next) => {
+  res.status(200).render('manageTours', {
+    title: 'Manage Tours',
+  });
+});
