@@ -1343,3 +1343,52 @@ body {
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
 }
+
+/* ++++++++++++++++++++++++ Tanble styles +++++++++++++++++++++++ */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  background: #444;
+  color: #f1f1f1;
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding: 1rem 1rem;
+  text-align: left;
+  outline: none;
+  border: none;
+  width: 22.5%;
+}
+
+table tbody tr {
+  background-color: #e0e0e0;
+  color: #444;
+}
+td {
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+  border-bottom: 1px solid #444;
+}
+.card__icon-edit {
+  width: 4rem;
+  height: 4rem;
+  fill: #55c57a;
+}
+
+.card__icon-delete {
+  width: 4rem;
+  height: 4rem;
+  fill: #eb4d4b;
+}
+.user--photo {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+}
+.btn--create-user {
+  margin-bottom: 1rem;
+  float: right;
+}

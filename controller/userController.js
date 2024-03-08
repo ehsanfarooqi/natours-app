@@ -1,10 +1,41 @@
 const multer = require('multer');
 const sharp = require('sharp');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
+
+// create JWT
+const signToken = id => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
+
+// Create and send Token
+const createAndSendToken = (user, statusCode, req, res) => {
+  const token = signToken(user._id);
+  res.cookie('jwt', token, {
+    expires: new Date(
+      Date.now() + process.env.JWI_COOKIE_EPIRES_IN * 20 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+  });
+
+  // Remove password from output
+  user.password = undefined;
+
+  res.status(statusCode).json({
+    status: 'success',
+    token,
+    data: {
+      user,
+    },
+  });
+};
 
 // The disk storage engine gives you full control on storing files to disk.
 
@@ -117,12 +148,22 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 });
 
 exports.createNewUser = catchAsync(async (req, res, next) => {
-  res.status(200).json({
-    status: 'succeess',
-    data: {
-      data: 'This user not defindes. Pleas use Sign Up!',
-    },
+  const newUser = await User.create({
+    name: req.body.name,
+    email: req.body.email,
+    photo: req.body.photo,
+    password: req.body.password,
+    confirmPassword: req.body.confirmPassword,
+    passwordChangedAt: req.body.passwordChangedAt,
+    role: req.body.role,
+    passwordResetToken: req.body.passwordResetToken,
+    passwordResetExpires: req.body.passwordResetExpires,
   });
+
+  // const url = `${req.protocol}://${req.get('host')}/me`; // Access to the url from email to change photo
+  // new Email(newUser, url).sendWelcome();
+
+  createAndSendToken(newUser, 201, req, res);
 });
 exports.getAllUser = factory.getAll(User);
 exports.getUser = factory.getOne(User);

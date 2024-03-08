@@ -28,4 +28,8 @@ router
   .route('/manage-tours')
   .get(authController.protect, viewController.getMangeTour);
 
+router
+  .route('/manage-users')
+  .get(authController.protect, viewController.getManageUsers);
+
 module.exports = router;

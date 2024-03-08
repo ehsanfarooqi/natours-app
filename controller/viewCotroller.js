@@ -161,3 +161,9 @@ exports.getMangeTour = catchAsync(async (req, res, next) => {
     title: 'Manage Tours',
   });
 });
+
+exports.getManageUsers = catchAsync(async (req, res, next) => {
+  res.status(200).render('manageUsers', {
+    title: 'Manage Users',
+  });
+});

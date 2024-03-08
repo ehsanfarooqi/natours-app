@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,300i,700"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+
+    <title>Natours | Manage Users</title>
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav nav--tours">
+        <a href="#" class="nav__el">All tours</a>
+      </nav>
+      <div class="header__logo">
+        <img src="img/logo-white.png" alt="Natour logo" />
+      </div>
+      <nav class="nav nav--user">
+        <button class="nav__el">Log out</button>
+        <a href="#" class="nav__el">
+          <img src="img/user.JPG" alt="User photo" class="nav__user-img" />
+          <span>Ehsan</span>
+        </a>
+        <!--
+          <button class="nav__el">Log in</button>
+          <button class="nav__el nav__el--cta">Sign up</button>
+          -->
+      </nav>
+    </header>
+
+    <main class="main">
+      <table class="table">
+        <a href="#">
+          <button class="btn btn--green span-all-rows btn--create-user">
+            Create new User
+          </button>
+        </a>
+        <thead>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <img
+                class="user--photo"
+                src="img/users/user-1.jpg"
+                alt="user image"
+              />
+            </td>
+            <td>Ehsan Farooqi</td>
+            <td>ehsan@gmail.com</td>
+            <td>User</td>
+            <td>
+              <a href="#">
+                <svg class="card__icon-edit">
+                  <use xlink:href="img/icons.svg#icon-edit"></use>
+                </svg>
+              </a>
+              <a href="#">
+                <svg class="card__icon-delete">
+                  <use xlink:href="img/icons.svg#icon-delete"></use>
+                </svg>
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img
+                class="user--photo"
+                src="img/users/user-1.jpg"
+                alt="user image"
+              />
+            </td>
+            <td>Ehsan Farooqi</td>
+            <td>ehsan@gmail.com</td>
+            <td>User</td>
+            <td>
+              <a href="#">
+                <svg class="card__icon-edit">
+                  <use xlink:href="img/icons.svg#icon-edit"></use>
+                </svg>
+              </a>
+              <a href="#">
+                <svg class="card__icon-delete">
+                  <use xlink:href="img/icons.svg#icon-delete"></use>
+                </svg>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>
