@@ -6,6 +6,7 @@ const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
+const Email = require('../utils/email');
 
 // create JWT
 const signToken = id => {
@@ -160,14 +161,10 @@ exports.createNewUser = catchAsync(async (req, res, next) => {
     passwordResetExpires: req.body.passwordResetExpires,
   });
 
-  // const url = `${req.protocol}://${req.get('host')}/me`; // Access to the url from email to change photo
-  // new Email(newUser, url).sendWelcome();
+  const url = `${req.protocol}://${req.get('host')}/me`; // Access to the url from email to change photo
+  new Email(newUser, url).sendWelcome();
 
-  // createAndSendToken(newUser, 201, req, res);
-  res.status(201).json({
-    status: 'success',
-    newUser,
-  });
+  createAndSendToken(newUser, 201, req, res);
 });
 exports.getAllUser = factory.getAll(User);
 exports.getUser = factory.getOne(User);

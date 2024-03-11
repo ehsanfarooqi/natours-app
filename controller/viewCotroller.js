@@ -175,3 +175,9 @@ exports.createNewUser = catchAsync(async (req, res, next) => {
     title: 'Add New User',
   });
 });
+
+exports.editUserData = catchAsync(async (req, res, next) => {
+  res.status(200).render('editUser', {
+    title: 'Edit User Data',
+  });
+});

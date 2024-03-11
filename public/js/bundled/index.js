@@ -12051,15 +12051,15 @@ const addNewUser = async (data)=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "POST",
-            url: "http://127.0.0.1:8000/api/users/create-user",
+            url: "/api/users/create-user",
             data
         });
-        console.log(res);
         window.setTimeout(()=>{
-            location.assign("/manage-users");
-        }, 1000);
+            (0, _alert.showAlert)("success", "User successfully created.");
+            location.assign("/me");
+        }, 1500);
     } catch (err) {
-        console.log(err.response.data);
+        (0, _alert.showAlert)("error", err.response.data.mesage);
     }
 };
 
