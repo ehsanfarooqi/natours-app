@@ -1,3 +1,28 @@
 extends base 
 block content 
-    h1 Manage users
+    main.main
+        table.table
+            a(href='#')
+                button.btn.btn--green.span-all-rows.btn--create-user
+                    | Create new User
+            thead
+                th Image
+                th Name
+                th Email
+                th Role
+                th Action
+            tbody
+            each user in users
+                    tr
+                        td
+                            img.user--photo(src=`/img/users/${user.photo}` alt=`${user.name}`)
+                        td= user.name
+                        td= user.email
+                        td= user.role
+                        td
+                            a(href='#')
+                                svg.card__icon-edit
+                                    use(xlink:href='img/icons.svg#icon-edit')
+                            a(href='#')
+                                svg.card__icon-delete
+                                    use(xlink:href='img/icons.svg#icon-delete')
