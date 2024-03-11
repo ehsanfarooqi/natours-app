@@ -163,7 +163,11 @@ exports.createNewUser = catchAsync(async (req, res, next) => {
   // const url = `${req.protocol}://${req.get('host')}/me`; // Access to the url from email to change photo
   // new Email(newUser, url).sendWelcome();
 
-  createAndSendToken(newUser, 201, req, res);
+  // createAndSendToken(newUser, 201, req, res);
+  res.status(201).json({
+    status: 'success',
+    newUser,
+  });
 });
 exports.getAllUser = factory.getAll(User);
 exports.getUser = factory.getOne(User);

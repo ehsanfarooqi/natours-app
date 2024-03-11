@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,300i,700"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+    <title>Document</title>
+  </head>
+  <body>
+    <main class="main">
+      <a href="/manage-users">
+        <button class="btn btn-small btn--green">All Users</button>
+      </a>
+      <div class="login-form">
+        <h2 class="heading-secondary ma-bt-lg">Create New User</h2>
+        <form class="form form--signup">
+          <div class="form__group">
+            <label class="form__label" for="name">Full Name</label
+            ><input
+              class="form__input"
+              id="name"
+              type="name"
+              placeholder="Jounas Alex"
+              required="required"
+            />
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="email">Email address</label
+            ><input
+              class="form__input"
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              required="required"
+            />
+          </div>
+          <div class="form__group ma-bt-md">
+            <label class="form__label" for="password">Password</label
+            ><input
+              class="form__input"
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              required="required"
+              minlength="8"
+            />
+          </div>
+          <div class="form__group ma-bt-md">
+            <label class="form__label" for="confirmPassword"
+              >PasswordConfirm</label
+            ><input
+              class="form__input"
+              id="confirmPassword"
+              type="password"
+              placeholder="••••••••"
+              required="required"
+              minlength="8"
+            />
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="name">User Role</label>
+            <select name="role" id="role" class="form__input">
+              <option value="user">User</option>
+              <option value="gude">Guide</option>
+              <option value="lead-guide">Lead Guide</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="form__group form__photo-upload">
+            <input
+              class="form__upload"
+              type="file"
+              accept="image/*"
+              id="photo"
+              name="photo"
+            /><label for="photo">Choose new Photo </label>
+          </div>
+          <div class="form__group">
+            <button class="btn btn--green">Create new user</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

@@ -7,6 +7,7 @@ import { updateSettings } from './updateSettings';
 import { forgotPass, resetPass } from './passwordSettings';
 import { bookTour } from './stripe';
 import { showAlert } from './alert';
+import { addNewUser } from './manageUsers';
 
 // DOM ELEMENT
 const mapBox = document.getElementById('map');
@@ -18,6 +19,7 @@ const userPasswordForm = document.querySelector('.form-user-settings');
 const forgotPassword = document.querySelector('.form--resetPass');
 const resetPassword = document.querySelector('.form--resetPass');
 const bookBtn = document.getElementById('book-tour');
+const loadCreateNewUserForm = document.querySelector('.form--addNewUser');
 
 // Maap box section
 if (mapBox) {
@@ -44,8 +46,8 @@ if (logoutBtn) logoutBtn.addEventListener('click', logout);
 if (loadSignUpForm) {
   loadSignUpForm.addEventListener('submit', async e => {
     e.preventDefault();
-    const form = new FormData();
 
+    const form = new FormData();
     form.append('name', document.getElementById('name').value);
     form.append('email', document.getElementById('email').value);
     form.append('password', document.getElementById('password').value);
@@ -132,3 +134,23 @@ if (bookBtn) {
 
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) showAlert('success', alertMessage, 10);
+
+// Create new user
+if (loadCreateNewUserForm) {
+  loadCreateNewUserForm.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const form = new FormData();
+    form.append('name', document.getElementById('name').value);
+    form.append('email', document.getElementById('email').value);
+    form.append('password', document.getElementById('password').value);
+    form.append(
+      'confirmPassword',
+      document.getElementById('confirmPassword').value
+    );
+    form.append('role', document.getElementById('role').value);
+    form.append('photo', document.getElementById('photo').files[0]);
+
+    await addNewUser(form, 'data');
+  });
+}

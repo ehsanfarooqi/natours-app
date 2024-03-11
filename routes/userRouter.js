@@ -30,10 +30,14 @@ router
   );
 
 router.use(authController.restrictTo('admin'));
+router.route('/').get(userController.getAllUser);
 router
-  .route('/')
-  .get(userController.getAllUser)
-  .post(userController.createNewUser);
+  .route('/create-user')
+  .post(
+    userController.uploadUserPhoto,
+    userController.resizeUserPhotoSignUp,
+    userController.createNewUser
+  );
 router
   .route('/:id')
   .get(userController.getUser)

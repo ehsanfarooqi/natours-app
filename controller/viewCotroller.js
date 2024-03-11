@@ -169,3 +169,9 @@ exports.getManageUsers = catchAsync(async (req, res, next) => {
     users,
   });
 });
+
+exports.createNewUser = catchAsync(async (req, res, next) => {
+  res.status(201).render('addNewUser', {
+    title: 'Add New User',
+  });
+});
