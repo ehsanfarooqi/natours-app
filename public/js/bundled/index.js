@@ -642,19 +642,24 @@ if (loadCreateNewUserForm) loadCreateNewUserForm.addEventListener("submit", asyn
     form.append("photo", document.getElementById("photo").files[0]);
     await (0, _manageUsers.addNewUser)(form, "data");
 });
-// Esite Users
-if (loadEditUserForm) loadEditUserForm.addEventListener("submit", async (e)=>{
-    e.preventDefault();
-    const form = new FormData();
-    form.append("name", document.getElementById("name").value);
-    form.append("email", document.getElementById("email").value);
-    form.append("password", document.getElementById("password").value);
-    form.append("confirmPassword", document.getElementById("confirmPassword").value);
-    form.append("role", document.getElementById("role").value);
-    form.append("photo", document.getElementById("photo").files[0]);
-    form.append("userId", document.getElementById("userId").value);
-    await (0, _editUserData.editUserData)(form, "data");
-});
+ // Esite Users
+ // if (loadEditUserForm) {
+ //   loadEditUserForm.addEventListener('submit', async e => {
+ //     e.preventDefault();
+ //     const form = new FormData();
+ //     form.append('name', document.getElementById('name').value);
+ //     form.append('email', document.getElementById('email').value);
+ //     form.append('password', document.getElementById('password').value);
+ //     form.append(
+ //       'confirmPassword',
+ //       document.getElementById('confirmPassword').value
+ //     );
+ //     form.append('role', document.getElementById('role').value);
+ //     form.append('photo', document.getElementById('photo').files[0]);
+ //     form.append('userId', document.getElementById('userId').value);
+ //     await editUserData(form, 'data');
+ //   });
+ // }
 
 },{"@babel/polyfill":"dTCHC","./login":"7yHem","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY","./passwordSettings":"4F7cx","./stripe":"10tSC","./alert":"kxdiQ","./manageUsers":"2vQbx","./editUserData":"jSijV"}],"dTCHC":[function(require,module,exports) {
 "use strict";
@@ -12080,22 +12085,19 @@ const addNewUser = async (data)=>{
 
 },{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jSijV":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "editUserData", ()=>editUserData);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
-var _alert = require("./alert");
-const editUserData = async (data, userId)=>{
-    try {
-        const res = await (0, _axiosDefault.default)({
-            method: "PATCH",
-            url: `/api/users/${userId}`,
-            data
-        });
-    } catch (err) {
-        console.log(err.response.data);
-    }
-};
+var _alert = require("./alert"); // export const editUserData = async (data, userId) => {
+ //   try {
+ //     const res = await axios({
+ //       method: 'PATCH',
+ //       url: `/api/users/${userId}`,
+ //       data,
+ //     });
+ //   } catch (err) {
+ //     console.log(err.response.data);
+ //   }
+ // };
 
 },{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jyRZ6","f2QDv"], "f2QDv", "parcelRequireda5e")
 
