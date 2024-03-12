@@ -541,6 +541,7 @@ var _passwordSettings = require("./passwordSettings");
 var _stripe = require("./stripe");
 var _alert = require("./alert");
 var _manageUsers = require("./manageUsers");
+var _editUserData = require("./editUserData");
 // DOM ELEMENT
 const mapBox = document.getElementById("map");
 const loadForm = document.querySelector(".form--login");
@@ -552,6 +553,7 @@ const forgotPassword = document.querySelector(".form--resetPass");
 const resetPassword = document.querySelector(".form--resetPass");
 const bookBtn = document.getElementById("book-tour");
 const loadCreateNewUserForm = document.querySelector(".form--addNewUser");
+const loadEditUserForm = document.querySelector(".form--editUser");
 // Maap box section
 if (mapBox) {
     const locations = JSON.parse(mapBox.dataset.locations);
@@ -640,8 +642,21 @@ if (loadCreateNewUserForm) loadCreateNewUserForm.addEventListener("submit", asyn
     form.append("photo", document.getElementById("photo").files[0]);
     await (0, _manageUsers.addNewUser)(form, "data");
 });
+// Esite Users
+if (loadEditUserForm) loadEditUserForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const form = new FormData();
+    form.append("name", document.getElementById("name").value);
+    form.append("email", document.getElementById("email").value);
+    form.append("password", document.getElementById("password").value);
+    form.append("confirmPassword", document.getElementById("confirmPassword").value);
+    form.append("role", document.getElementById("role").value);
+    form.append("photo", document.getElementById("photo").files[0]);
+    form.append("userId", document.getElementById("userId").value);
+    await (0, _editUserData.editUserData)(form, "data");
+});
 
-},{"@babel/polyfill":"dTCHC","./login":"7yHem","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY","./passwordSettings":"4F7cx","./stripe":"10tSC","./alert":"kxdiQ","./manageUsers":"2vQbx"}],"dTCHC":[function(require,module,exports) {
+},{"@babel/polyfill":"dTCHC","./login":"7yHem","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY","./passwordSettings":"4F7cx","./stripe":"10tSC","./alert":"kxdiQ","./manageUsers":"2vQbx","./editUserData":"jSijV"}],"dTCHC":[function(require,module,exports) {
 "use strict";
 require("316ac4c05c14c195");
 var _global = _interopRequireDefault(require("eda71351ef130dec"));
@@ -12060,6 +12075,25 @@ const addNewUser = async (data)=>{
         }, 1500);
     } catch (err) {
         (0, _alert.showAlert)("error", err.response.data.mesage);
+    }
+};
+
+},{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jSijV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "editUserData", ()=>editUserData);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _alert = require("./alert");
+const editUserData = async (data, userId)=>{
+    try {
+        const res = await (0, _axiosDefault.default)({
+            method: "PATCH",
+            url: `/api/users/${userId}`,
+            data
+        });
+    } catch (err) {
+        console.log(err.response.data);
     }
 };
 

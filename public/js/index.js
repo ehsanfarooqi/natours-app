@@ -8,6 +8,7 @@ import { forgotPass, resetPass } from './passwordSettings';
 import { bookTour } from './stripe';
 import { showAlert } from './alert';
 import { addNewUser } from './manageUsers';
+import { editUserData } from './editUserData';
 
 // DOM ELEMENT
 const mapBox = document.getElementById('map');
@@ -20,6 +21,7 @@ const forgotPassword = document.querySelector('.form--resetPass');
 const resetPassword = document.querySelector('.form--resetPass');
 const bookBtn = document.getElementById('book-tour');
 const loadCreateNewUserForm = document.querySelector('.form--addNewUser');
+const loadEditUserForm = document.querySelector('.form--editUser');
 
 // Maap box section
 if (mapBox) {
@@ -152,5 +154,26 @@ if (loadCreateNewUserForm) {
     form.append('photo', document.getElementById('photo').files[0]);
 
     await addNewUser(form, 'data');
+  });
+}
+
+// Esite Users
+if (loadEditUserForm) {
+  loadEditUserForm.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const form = new FormData();
+    form.append('name', document.getElementById('name').value);
+    form.append('email', document.getElementById('email').value);
+    form.append('password', document.getElementById('password').value);
+    form.append(
+      'confirmPassword',
+      document.getElementById('confirmPassword').value
+    );
+    form.append('role', document.getElementById('role').value);
+    form.append('photo', document.getElementById('photo').files[0]);
+    form.append('userId', document.getElementById('userId').value);
+
+    await editUserData(form, 'data');
   });
 }

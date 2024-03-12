@@ -20,7 +20,7 @@ block content
                         td= user.email
                         td= user.role
                         td
-                            a(href='/edit-user-data')
+                            a(href=`/${user.id}`)
                                 svg.card__icon-edit
                                     use(xlink:href='img/icons.svg#icon-edit')
                             a(href='#')

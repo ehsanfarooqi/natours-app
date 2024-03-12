@@ -177,7 +177,11 @@ exports.createNewUser = catchAsync(async (req, res, next) => {
 });
 
 exports.editUserData = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body);
+  // const userId = req.params.id;
+  // console.log(userId);
   res.status(200).render('editUser', {
     title: 'Edit User Data',
+    user,
   });
 });

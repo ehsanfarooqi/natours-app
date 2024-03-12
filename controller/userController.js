@@ -166,6 +166,7 @@ exports.createNewUser = catchAsync(async (req, res, next) => {
 
   createAndSendToken(newUser, 201, req, res);
 });
+
 exports.getAllUser = factory.getAll(User);
 exports.getUser = factory.getOne(User);
 exports.updateUser = factory.updateOne(User);
