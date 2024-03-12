@@ -158,22 +158,22 @@ if (loadCreateNewUserForm) {
 }
 
 // Esite Users
-if (loadEditUserForm) {
-  loadEditUserForm.addEventListener('submit', async e => {
-    e.preventDefault();
+// if (loadEditUserForm) {
+//   loadEditUserForm.addEventListener('submit', async e => {
+//     e.preventDefault();
 
-    const form = new FormData();
-    form.append('name', document.getElementById('name').value);
-    form.append('email', document.getElementById('email').value);
-    form.append('password', document.getElementById('password').value);
-    form.append(
-      'confirmPassword',
-      document.getElementById('confirmPassword').value
-    );
-    form.append('role', document.getElementById('role').value);
-    form.append('photo', document.getElementById('photo').files[0]);
-    form.append('userId', document.getElementById('userId').value);
+//     const form = new FormData();
+//     form.append('name', document.getElementById('name').value);
+//     form.append('email', document.getElementById('email').value);
+//     form.append('password', document.getElementById('password').value);
+//     form.append(
+//       'confirmPassword',
+//       document.getElementById('confirmPassword').value
+//     );
+//     form.append('role', document.getElementById('role').value);
+//     form.append('photo', document.getElementById('photo').files[0]);
+//     form.append('userId', document.getElementById('userId').value);
 
-    await editUserData(form, 'data');
-  });
-}
+//     await editUserData(form, 'data');
+//   });
+// }
