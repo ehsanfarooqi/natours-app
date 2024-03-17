@@ -642,24 +642,19 @@ if (loadCreateNewUserForm) loadCreateNewUserForm.addEventListener("submit", asyn
     form.append("photo", document.getElementById("photo").files[0]);
     await (0, _manageUsers.addNewUser)(form, "data");
 });
- // Esite Users
- // if (loadEditUserForm) {
- //   loadEditUserForm.addEventListener('submit', async e => {
- //     e.preventDefault();
- //     const form = new FormData();
- //     form.append('name', document.getElementById('name').value);
- //     form.append('email', document.getElementById('email').value);
- //     form.append('password', document.getElementById('password').value);
- //     form.append(
- //       'confirmPassword',
- //       document.getElementById('confirmPassword').value
- //     );
- //     form.append('role', document.getElementById('role').value);
- //     form.append('photo', document.getElementById('photo').files[0]);
- //     form.append('userId', document.getElementById('userId').value);
- //     await editUserData(form, 'data');
- //   });
- // }
+// Esite Users
+if (loadEditUserForm) loadEditUserForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const form = new FormData();
+    form.append("name", document.getElementById("name").value);
+    form.append("email", document.getElementById("email").value);
+    form.append("password", document.getElementById("password").value);
+    form.append("confirmPassword", document.getElementById("confirmPassword").value);
+    form.append("role", document.getElementById("role").value);
+    form.append("photo", document.getElementById("photo").files[0]);
+    form.append("userId", document.getElementById("userId").value);
+    await (0, _editUserData.editUserData)(form, "data");
+});
 
 },{"@babel/polyfill":"dTCHC","./login":"7yHem","./mapBox":"k6XpQ","./signup":"fNY2o","./updateSettings":"l3cGY","./passwordSettings":"4F7cx","./stripe":"10tSC","./alert":"kxdiQ","./manageUsers":"2vQbx","./editUserData":"jSijV"}],"dTCHC":[function(require,module,exports) {
 "use strict";
@@ -7656,7 +7651,7 @@ const login = async (email, password)=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "POST",
-            url: "/api/users/login",
+            url: "http://127.0.0.1:8000/api/users/login",
             data: {
                 email,
                 password
@@ -7674,7 +7669,7 @@ const logout = async ()=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "GET",
-            url: "/api/users/logout"
+            url: "http://127.0.0.1:8000/api/users/logout"
         });
         if (res.data.status === "success") location.reload(true);
     } catch (err) {
@@ -11899,11 +11894,11 @@ const hideAlert = ()=>{
     const el = document.querySelector(".alert");
     if (el) el.parentElement.removeChild(el);
 };
-const showAlert = (type, msg, time = 7)=>{
+const showAlert = (type, msg)=>{
     hideAlert();
     const markup = `<div class="alert alert--${type}">${msg}</div>`;
     document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
-    window.setTimeout(hideAlert, time * 1000);
+    window.setTimeout(hideAlert, 5000);
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k6XpQ":[function(require,module,exports) {
@@ -11955,7 +11950,7 @@ const signUp = async (data)=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "POST",
-            url: "/api/users/signup",
+            url: "http://127.0.0.1:8000/api/users/signup",
             data
         });
         window.setTimeout(()=>{
@@ -11976,7 +11971,7 @@ var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alert = require("./alert");
 const updateSettings = async (data, type)=>{
     try {
-        const url = type === "password" ? "/api/users/updateMyPassword" : "/api/users/updateMe";
+        const url = type === "password" ? "http://127.0.0.1:8000/api/users/updateMyPassword" : "http://127.0.0.1:8000/api/users/updateMe";
         const res = await (0, _axiosDefault.default)({
             method: "PATCH",
             url,
@@ -12005,7 +12000,7 @@ const forgotPass = async (email)=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "POST",
-            url: "/api/users/forgotPassword",
+            url: "http://127.0.0.1:8000/api/users/forgotPassword",
             data: {
                 email
             }
@@ -12022,7 +12017,7 @@ const resetPass = async (password, confirmPassword, token)=>{
     try {
         const res = await (0, _axiosDefault.default)({
             method: "PATCH",
-            url: `/api/users/resetPassword/${token}`,
+            url: `http://127.0.0.1:8000/api/users/resetPassword/${token}`,
             data: {
                 password,
                 confirmPassword
@@ -12050,7 +12045,7 @@ const bookTour = async (tourId)=>{
     const stripe = Stripe("pk_test_51OpGZDKX61SmIbImGtA0QG8NSl5PfSctRDvBbqJhm7JN9ZDpSTl1TeCo55cvq88WTJLQRmlYIBAZTnv5ks34BEuj00VviwoA9q");
     try {
         // 1. Get checkout session from the API
-        const session = await (0, _axiosDefault.default)(`/api/bookings/checkout-session/${tourId}`);
+        const session = await (0, _axiosDefault.default)(`http://127.0.0.1:8000/api/bookings/checkout-session/${tourId}`);
         // 2. Create checkout form + charge credit card
         await stripe.redirectToCheckout({
             sessionId: session.data.session.id
@@ -12085,19 +12080,23 @@ const addNewUser = async (data)=>{
 
 },{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jSijV":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "editUserData", ()=>editUserData);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
-var _alert = require("./alert"); // export const editUserData = async (data, userId) => {
- //   try {
- //     const res = await axios({
- //       method: 'PATCH',
- //       url: `/api/users/${userId}`,
- //       data,
- //     });
- //   } catch (err) {
- //     console.log(err.response.data);
- //   }
- // };
+var _alert = require("./alert");
+const editUserData = async (data, id)=>{
+    try {
+        const res = await (0, _axiosDefault.default)({
+            method: "PATCH",
+            url: `/api/users/${id}`,
+            data
+        });
+        console.log(res);
+    } catch (err) {
+        console.log(err.response.data);
+    }
+};
 
 },{"axios":"jo6P5","./alert":"kxdiQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jyRZ6","f2QDv"], "f2QDv", "parcelRequireda5e")
 

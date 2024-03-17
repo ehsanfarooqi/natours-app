@@ -36,6 +36,8 @@ router
   .route('/add-new-user')
   .get(authController.protect, viewController.createNewUser);
 
-router.route('/:id').get(authController.protect, viewController.editUserData);
+router
+  .route('/user/:id')
+  .get(authController.protect, viewController.editUserData);
 
 module.exports = router;
