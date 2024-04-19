@@ -1,3 +1,29 @@
-extends base 
-block content 
-    h1 This page not work
+//- extends base 
+//- block content 
+//-     main.main
+//-         table.table
+//-             a(href='/add-new-user')
+//-                 button.btn.btn--green.span-all-rows.btn--create-user
+//-                     | Create new User
+//-             thead
+//-                 th Image
+//-                 th Name
+//-                 th Email
+//-                 th Role
+//-                 th Action
+//-             tbody
+//-             each tour  in tours 
+//-                     tr
+//-                         td
+//-                             img.tour--photo(src=`/img/tours/${tour.photo}` alt=`${tour.name}`)
+//-                         td= tour.name
+//-                         td= tour.difficulty
+//-                         td= tour.duration 
+//-                         td= tour.summary  
+//-                         td
+//-                             a(href=`/tour/${tour.id}`)
+//-                                 svg.card__icon-edit
+//-                                     use(xlink:href='img/icons.svg#icon-edit')
+//-                             a(href='#')
+//-                                 svg.card__icon-delete
+//-                                     use(xlink:href='img/icons.svg#icon-delete')
