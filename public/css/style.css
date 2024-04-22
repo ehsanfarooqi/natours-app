@@ -1415,3 +1415,8 @@ td {
   float: right;
   box-shadow: 0 0 2rem rgba(74, 73, 73, 0.66);
 }
+.tour--photo {
+  width: 16rem;
+  height: 16rem;
+  border-radius: 50rem;
+}
